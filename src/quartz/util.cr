@@ -15,4 +15,8 @@ module Quartz
   def self.pa_version(io = STDOUT)
     io.puts String.new(LibPortAudio.get_version_text)
   end
+
+  macro handle_error(errno)
+    puts String.new(LibPortAudio.get_error_text(errno)) if errno != 0
+  end
 end

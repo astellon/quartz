@@ -96,7 +96,10 @@ lib LibPortAudio
   alias PaStream = Void
   alias PaStreamFlags = UInt64
   alias PaStreamCallbackFlags = UInt64
-  alias PaStreamCallback = Void
+
+  # C Function pointer is `Proc` in Crystal
+  # DO NOT USE `PaStreamCallback*`, USE `PaStreamCallback`
+  alias PaStreamCallback = (Void*, Void*, UInt64, PaStreamCallbackTimeInfo*, PaStreamCallbackFlags, Void*)->Int32
   alias PaStreamFinishedCallback = Void
 
   # api enums
@@ -169,9 +172,9 @@ lib LibPortAudio
   fun get_device_info = Pa_GetDeviceInfo(device : PaDeviceIndex) : PaDeviceInfo*
   fun is_format_supported = Pa_IsFormatSupported(input_parameters : PaStreamParameters*, output_parameters : PaStreamParameters*, sample_rate : Float64) : PaError
   fun open_stream = Pa_OpenStream(stream : PaStream**, input_parameters : PaStreamParameters*, output_parameters : PaStreamParameters*, sample_rate : Float64, frames_per_buffer : UInt64, stream_flag : PaStreamFlags, stream_callback : PaStreamCallback*, user_data : Void*) : PaError
-  fun open_default_stream = Pa_OpenDefaultStream(stream : PaStream**, numInputChannels : Int32, numOutputChannels : Int32, sampleFormat : PaSampleFormat, sampleRate : Float64, framesPerBuffer : Int64, streamCallback : PaStreamCallback*, userData : Void*) : PaError
+  fun open_default_stream = Pa_OpenDefaultStream(stream : PaStream**, num_input_channels : Int32, num_output_channels : Int32, sample_format : PaSampleFormat, sample_rate : Float64, frames_per_buffer : UInt64, stream_callback : PaStreamCallback, user_data : Void*) : PaError
   fun cloase_stream = Pa_CloseStream(stream : PaStream*) : PaError
-  fun set_stream_finished_callback = Pa_SetStreamFinishedCallback(stream : PaStream*, streamFinishedCallback : PaStreamFinishedCallback*) : PaError
+  fun set_stream_finished_callback = Pa_SetStreamFinishedCallback(stream : PaStream*, stream_finished_callback : PaStreamFinishedCallback*) : PaError
   fun start_stream = Pa_StartStream(stream : PaStream*) : PaError
   fun stop_stream = Pa_StopStream(stream : PaStream*) : PaError
   fun abort_stream = Pa_AbortStream(stream : PaStream*) : PaError
