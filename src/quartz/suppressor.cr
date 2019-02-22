@@ -27,5 +27,5 @@ module Quartz
         i.close if i
       end
     end
-  end # module suppressor
-end # module Quartz
+  end
+end
