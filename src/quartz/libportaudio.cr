@@ -99,7 +99,7 @@ lib LibPortAudio
 
   # C Function pointer is `Proc` in Crystal
   # DO NOT USE `PaStreamCallback*`, USE `PaStreamCallback`
-  alias PaStreamCallback = (Void*, Void*, UInt64, PaStreamCallbackTimeInfo*, PaStreamCallbackFlags, Void*)->Int32
+  alias PaStreamCallback = (Void*, Void*, UInt64, PaStreamCallbackTimeInfo*, PaStreamCallbackFlags, Void*) -> Int32
   alias PaStreamFinishedCallback = Void
 
   # api enums

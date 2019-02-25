@@ -1,4 +1,3 @@
-
 require "./quartz/libportaudio.cr"
 require "./quartz/stream.cr"
 require "./quartz/suppressor.cr"
