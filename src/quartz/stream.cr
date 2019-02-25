@@ -10,6 +10,7 @@ module Quartz
       @ptr = Pointer(LibPortAudio::PaStream).malloc(0)
     end
 
+    # using Proc
     def start(callback : (Void*, Void*, UInt64, LibPortAudio::PaStreamCallbackTimeInfo*, LibPortAudio::PaStreamCallbackFlags, Void*)->Int32, user_data)
       ptrptr = pointerof(@ptr)
       @boxed = Box.box(user_data)
@@ -17,12 +18,10 @@ module Quartz
       except LibPortAudio.start_stream(@ptr)
     end
 
+    # using block
     def start(user_data, &block : (Void*, Void*, UInt64, LibPortAudio::PaStreamCallbackTimeInfo*, LibPortAudio::PaStreamCallbackFlags, Void*)->Int32)
       callback = block
-      ptrptr = pointerof(@ptr)
-      @boxed = Box.box(user_data)
-      except LibPortAudio.open_default_stream(ptrptr, @input, @output, format(Float32), sample_rate, @size, callback, @boxed)
-      except LibPortAudio.start_stream(@ptr)
+      start(callback, user_data)
     end
   end
 end

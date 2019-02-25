@@ -12,7 +12,7 @@ module Quartz
     at_exit { LibPortAudio.terminate }
   end
 
-  def self.pa_version(io = STDOUT)
+  def pa_version(io = STDOUT)
     io.puts String.new(LibPortAudio.get_version_text)
   end
 
