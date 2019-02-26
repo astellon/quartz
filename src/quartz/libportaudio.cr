@@ -175,6 +175,7 @@ lib LibPortAudio
   fun open_default_stream = Pa_OpenDefaultStream(stream : PaStream**, num_input_channels : Int32, num_output_channels : Int32, sample_format : PaSampleFormat, sample_rate : Float64, frames_per_buffer : UInt64, stream_callback : PaStreamCallback, user_data : Void*) : PaError
   fun cloase_stream = Pa_CloseStream(stream : PaStream*) : PaError
   fun set_stream_finished_callback = Pa_SetStreamFinishedCallback(stream : PaStream*, stream_finished_callback : PaStreamFinishedCallback*) : PaError
+  @[Raises] # raises from callback
   fun start_stream = Pa_StartStream(stream : PaStream*) : PaError
   fun stop_stream = Pa_StopStream(stream : PaStream*) : PaError
   fun abort_stream = Pa_AbortStream(stream : PaStream*) : PaError
