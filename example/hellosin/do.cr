@@ -1,4 +1,3 @@
-
 require "../../src/quartz.cr"
 
 include Quartz

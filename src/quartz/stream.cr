@@ -31,7 +31,7 @@ module Quartz
     def start(callbacker : T) forall T
       cb = ->(input : Void*, output : Void*, frame_count : UInt64, time_info : LibPortAudio::PaStreamCallbackTimeInfo*, status_flags : LibPortAudio::PaStreamCallbackFlags, user_data : Void*) {
         p = Box(T).unbox(user_data)
-        in_buf  = Pointer(Float32).new(input.address)
+        in_buf = Pointer(Float32).new(input.address)
         out_buf = Pointer(Float32).new(output.address)
         p.callback(in_buf, out_buf, frame_count)
         0
@@ -42,7 +42,7 @@ module Quartz
     def stop
       except LibPortAudio.StopStream @ptr
     end
-    
+
     def cpu_load
       LibPortAudio.get_stream_cpu_load @ptr
     end
