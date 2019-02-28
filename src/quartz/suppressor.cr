@@ -6,6 +6,7 @@ module Quartz
   # Output suppressor.
   module Suppressor
     # suppress outputs via file descriptor
+    #
     # ```
     # supress STDOUT, puts "suppressed"
     # ```

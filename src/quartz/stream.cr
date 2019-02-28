@@ -1,10 +1,10 @@
 module Quartz
   class AudioStream
-    property ptr : Pointer(Void)
-    property input : Int32
-    property output : Int32
-    property sample_rate : Float64
-    property size : UInt64
+    getter ptr : Pointer(Void)
+    getter input : Int32
+    getter output : Int32
+    getter sample_rate : Float64
+    getter size : UInt64
 
     def initialize(@input, @output, @sample_rate, @size)
       @ptr = Pointer(LibPortAudio::PaStream).malloc(0)
