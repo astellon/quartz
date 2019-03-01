@@ -8,7 +8,7 @@ TODO: Write a description here
 
    ```yaml
    dependencies:
-     Quarz:
+     Quartz:
        github: Astellon/Quartz
    ```
 
