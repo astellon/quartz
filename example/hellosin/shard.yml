@@ -1,8 +1,19 @@
-name: hello-sin
+name: hellosin
 version: 0.1.0
 
+# authors:
+#   - name <email@example.com>
+
+# description: |
+#   Short description of hellosin
+
 dependencies:
-  Quartz:
-    github: Astellon/Quartz
+  pg:
+    github: astellon/quartz
+#     version: "~> 0.5"
+
+# development_dependencies:
+#   webmock:
+#     github: manastech/webmock.cr
 
 # license: MIT

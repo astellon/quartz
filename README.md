@@ -9,7 +9,7 @@ TODO: Write a description here
    ```yaml
    dependencies:
      quartz:
-       github: Astellon/quartz
+       github: astellon/quartz
    ```
 
 2. Run `shards install`
@@ -28,7 +28,7 @@ TODO: Write development instructions here
 
 ## Contributing
 
-1. Fork it (<https://github.com/Astellon/quartz/fork>)
+1. Fork it (<https://github.com/astellon/quartz/fork>)
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
@@ -36,4 +36,4 @@ TODO: Write development instructions here
 
 ## Contributors
 
-- [astellon](https://github.com/Astellon) - creator and maintainer
+- [Astellon](https://github.com/astellon) - creator and maintainer

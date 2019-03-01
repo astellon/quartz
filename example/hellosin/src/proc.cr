@@ -1,4 +1,4 @@
-require "Quartz"
+require "quartz"
 
 include Quartz
 
