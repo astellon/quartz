@@ -1,4 +1,4 @@
-require "../../src/quartz.cr"
+require "Quartz"
 
 include Quartz
 

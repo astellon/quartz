@@ -1,0 +1,8 @@
+name: hello-sin
+version: 0.1.0
+
+dependencies:
+  Quartz:
+    github: Astellon/Quartz
+
+# license: MIT
