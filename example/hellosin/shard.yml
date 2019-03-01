@@ -1,19 +1,8 @@
 name: hellosin
 version: 0.1.0
 
-# authors:
-#   - name <email@example.com>
-
-# description: |
-#   Short description of hellosin
-
 dependencies:
   quartz:
     github: astellon/quartz
-#     version: "~> 0.5"
 
-# development_dependencies:
-#   webmock:
-#     github: manastech/webmock.cr
-
-# license: MIT
+license: MIT
