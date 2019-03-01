@@ -8,7 +8,7 @@ version: 0.1.0
 #   Short description of hellosin
 
 dependencies:
-  pg:
+  quartz:
     github: astellon/quartz
 #     version: "~> 0.5"
 
