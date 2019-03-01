@@ -194,6 +194,7 @@ end
 
 # The helper module for the wrapper.
 module PortAudio
+  # Retern the version hash
   def self.make_version_number(major, minor, subminor)
     (((major) & 0xFF) << 16 | ((minor) & 0xFF) << 8 | ((subminor) & 0xFF))
   end

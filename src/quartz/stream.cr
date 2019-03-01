@@ -1,4 +1,5 @@
 module Quartz
+  # Audio Stream class for sound IO.
   class AudioStream
     getter ptr : Pointer(Void)
     getter input : Int32
@@ -10,11 +11,11 @@ module Quartz
       @ptr = Pointer(LibPortAudio::PaStream).malloc(0)
     end
 
-    def to_unsafe
+    def to_unsafe : Pointer(LibPortAudio::PaStream)
       @ptr
     end
 
-    # using Proc
+    # Start this stream by using Proc
     def start(callback : (Void*, Void*, UInt64, LibPortAudio::PaStreamCallbackTimeInfo*, LibPortAudio::PaStreamCallbackFlags, Void*) -> Int32, user_data)
       ptrptr = pointerof(@ptr)
       @boxed = Box.box(user_data)
@@ -22,12 +23,13 @@ module Quartz
       except LibPortAudio.start_stream(@ptr)
     end
 
-    # using block
+    # Start this stream by using block
     def start(user_data, &block : (Void*, Void*, UInt64, LibPortAudio::PaStreamCallbackTimeInfo*, LibPortAudio::PaStreamCallbackFlags, Void*) -> Int32)
       callback = block
       start(callback, user_data)
     end
 
+    # Start this stream by using class `T` that has `T#callback`
     def start(callbacker : T) forall T
       cb = ->(input : Void*, output : Void*, frame_count : UInt64, time_info : LibPortAudio::PaStreamCallbackTimeInfo*, status_flags : LibPortAudio::PaStreamCallbackFlags, user_data : Void*) {
         p = Box(T).unbox(user_data)

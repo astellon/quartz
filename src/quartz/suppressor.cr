@@ -3,9 +3,9 @@ lib LibC
 end
 
 module Quartz
-  # Output suppressor.
+  # Suppress the output.
   module Suppressor
-    # suppress outputs via file descriptor
+    # Suppress the output from file descriptor
     #
     # ```
     # supress STDOUT, puts "suppressed"
