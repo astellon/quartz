@@ -11,10 +11,6 @@ module Quartz
       @ptr = Pointer(LibPortAudio::PaStream).malloc(0)
     end
 
-    def to_unsafe : Pointer(LibPortAudio::PaStream)
-      @ptr
-    end
-
     # Start this stream by using Proc
     def start(callback : (Void*, Void*, UInt64, LibPortAudio::PaStreamCallbackTimeInfo*, LibPortAudio::PaStreamCallbackFlags, Void*) -> Int32, user_data)
       ptrptr = pointerof(@ptr)
@@ -57,6 +53,25 @@ module Quartz
     def is_active
       errno = except LibPortAudio.is_stream_active @ptr
       return errno == 1
+    end
+
+    def inspect(io : IO)
+      to_s(io)
+    end
+
+    def to_s(io : IO)
+      io << "AudioStream<"
+      io << @input << ", "
+      io << @output << ", "
+      io << @sample_rate << ", "
+      io << @size << ", "
+      io << cpu_load * 100 << "%, "
+      io << (is_active ? "active" : (is_stopped ? "stopped" : "not start"))
+      io << ">"
+    end
+
+    def to_unsafe : Pointer(LibPortAudio::PaStream)
+      @ptr
     end
   end
 end

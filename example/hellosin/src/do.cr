@@ -1,6 +1,9 @@
-require "quartz"
+# require "quartz"
+require "../../../src/quartz.cr"
 
 include Quartz
+
+puts Quartz.devices()
 
 phase = 0.0_f32
 
@@ -18,7 +21,6 @@ stream.start(phase) do |input, output, frame_count, time_info, status_flags, use
 end
 
 (0..5).each do |_|
-  puts stream.cpu_load
-  puts stream.is_stopped
+  puts stream
   sleep(1)
 end
