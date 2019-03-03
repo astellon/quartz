@@ -17,7 +17,6 @@ module Quartz
   end
 
   macro except(code)
-    errno = {{code}}
-    raise String.new(LibPortAudio.get_error_text(errno)) if errno < 0
+    ( errno = {{code}} ) < 0 ? raise String.new(LibPortAudio.get_error_text(errno)) : errno
   end
 end
