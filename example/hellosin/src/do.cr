@@ -3,11 +3,9 @@ require "../../../src/quartz.cr"
 
 include Quartz
 
-puts Quartz.devices()
-
 phase = 0.0_f32
 
-stream = AudioStream.new(2, 2, 44100.0, 256_u64)
+stream = AudioStream(Float32).new(2, 2, 44100.0, 256_u64)
 stream.start(phase) do |input, output, frame_count, time_info, status_flags, user_data|
   # reinterpret casting
   p = Pointer(Float32).new(user_data.address)

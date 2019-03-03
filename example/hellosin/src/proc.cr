@@ -16,11 +16,10 @@ cb = ->(input : Void*, output : Void*, frame_count : UInt64, time_info : LibPort
   0
 }
 
-stream = AudioStream.new(2, 2, 44100.0, 256_u64)
+stream = AudioStream(Float32).new(2, 2, 44100.0, 256_u64)
 stream.start(cb, phase)
 
 (0..5).each do |_|
-  puts stream.cpu_load
-  puts stream.is_stopped
+  puts stream
   sleep(1)
 end

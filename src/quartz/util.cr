@@ -24,7 +24,20 @@ module Quartz
   # ```
   # format(Int32) # => 2
   # ```
-  macro format(type)
-    LibPortAudio::Pa{{type}}
+  def format(type : T.class) forall T
+    case type
+    when Float32.class
+      LibPortAudio::PaFloat32
+    when Int32.class
+      LibPortAudio::PaInt32
+    when Int16.class
+      LibPortAudio::PaInt16
+    when Int8.class
+      LibPortAudio::PaInt8
+    when UInt8.class
+      LibPortAudio::PaUInt8
+    else
+      raise "Invalid Type for PaFormat"
+    end
   end
 end

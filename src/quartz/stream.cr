@@ -1,21 +1,25 @@
 module Quartz
   # Audio Stream class for sound IO.
-  class AudioStream
+  class AudioStream(T)
     getter ptr : Pointer(Void)
     getter input : Int32
     getter output : Int32
     getter sample_rate : Float64
     getter size : UInt64
 
+    # Open default device
     def initialize(@input, @output, @sample_rate, @size)
       @ptr = Pointer(LibPortAudio::PaStream).malloc(0)
     end
+
+    # Open default device
+    # def initialize(index, @input, @output, @sample_rate, @size)
 
     # Start this stream by using Proc
     def start(callback : (Void*, Void*, UInt64, LibPortAudio::PaStreamCallbackTimeInfo*, LibPortAudio::PaStreamCallbackFlags, Void*) -> Int32, user_data)
       ptrptr = pointerof(@ptr)
       @boxed = Box.box(user_data)
-      except LibPortAudio.open_default_stream(ptrptr, @input, @output, format(Float32), sample_rate, @size, callback, @boxed)
+      except LibPortAudio.open_default_stream(ptrptr, @input, @output, format(T), sample_rate, @size, callback, @boxed)
       except LibPortAudio.start_stream(@ptr)
     end
 
@@ -26,11 +30,11 @@ module Quartz
     end
 
     # Start this stream by using class `T` that has `T#callback`
-    def start(callbacker : T) forall T
+    def start(callbacker : U) forall U
       cb = ->(input : Void*, output : Void*, frame_count : UInt64, time_info : LibPortAudio::PaStreamCallbackTimeInfo*, status_flags : LibPortAudio::PaStreamCallbackFlags, user_data : Void*) {
-        p = Box(T).unbox(user_data)
-        in_buf = Pointer(Float32).new(input.address)
-        out_buf = Pointer(Float32).new(output.address)
+        p = Box(U).unbox(user_data)
+        in_buf = Pointer(T).new(input.address)
+        out_buf = Pointer(T).new(output.address)
         p.callback(in_buf, out_buf, frame_count)
         0
       }
@@ -64,9 +68,7 @@ module Quartz
       io << @input << ", "
       io << @output << ", "
       io << @sample_rate << ", "
-      io << @size << ", "
-      io << cpu_load * 100 << "%, "
-      io << (is_active ? "active" : (is_stopped ? "stopped" : "not start"))
+      io << @size
       io << ">"
     end
 

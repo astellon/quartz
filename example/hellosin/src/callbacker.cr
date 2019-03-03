@@ -19,11 +19,10 @@ end
 phase = 0.0_f32
 callbacker = CallBacker.new
 
-stream = AudioStream.new(2, 2, 44100.0, 256_u64)
+stream = AudioStream(Float32).new(2, 2, 44100.0, 256_u64)
 stream.start(callbacker)
 
 (0..5).each do |_|
-  puts stream.cpu_load
-  puts stream.is_stopped
+  puts stream
   sleep(1)
 end
