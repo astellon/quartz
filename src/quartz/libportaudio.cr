@@ -192,7 +192,7 @@ lib LibPortAudio
   fun sleep = Pa_Sleep(msec : Int64) : Void
 end
 
-# The helper module for the wrapper.
+# C Macro function
 module PortAudio
   # Retern the version hash
   def self.make_version_number(major, minor, subminor)
