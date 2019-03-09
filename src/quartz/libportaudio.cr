@@ -171,7 +171,7 @@ lib LibPortAudio
   fun get_default_output_device = Pa_GetDefaultOutputDevice : PaDeviceIndex
   fun get_device_info = Pa_GetDeviceInfo(device : PaDeviceIndex) : PaDeviceInfo*
   fun is_format_supported = Pa_IsFormatSupported(input_parameters : PaStreamParameters*, output_parameters : PaStreamParameters*, sample_rate : Float64) : PaError
-  fun open_stream = Pa_OpenStream(stream : PaStream**, input_parameters : PaStreamParameters*, output_parameters : PaStreamParameters*, sample_rate : Float64, frames_per_buffer : UInt64, stream_flag : PaStreamFlags, stream_callback : PaStreamCallback*, user_data : Void*) : PaError
+  fun open_stream = Pa_OpenStream(stream : PaStream**, input_parameters : PaStreamParameters*, output_parameters : PaStreamParameters*, sample_rate : Float64, frames_per_buffer : UInt64, stream_flag : PaStreamFlags, stream_callback : PaStreamCallback, user_data : Void*) : PaError
   fun open_default_stream = Pa_OpenDefaultStream(stream : PaStream**, num_input_channels : Int32, num_output_channels : Int32, sample_format : PaSampleFormat, sample_rate : Float64, frames_per_buffer : UInt64, stream_callback : PaStreamCallback, user_data : Void*) : PaError
   fun cloase_stream = Pa_CloseStream(stream : PaStream*) : PaError
   fun set_stream_finished_callback = Pa_SetStreamFinishedCallback(stream : PaStream*, stream_finished_callback : PaStreamFinishedCallback*) : PaError

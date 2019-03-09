@@ -8,18 +8,39 @@ module Quartz
     getter size : UInt64
 
     # Open default device
-    def initialize(@input, @output, @sample_rate, @size)
-      @ptr = Pointer(LibPortAudio::PaStream).malloc(0)
+    def initialize(input, output, sample_rate, size)
+      indev  = LibPortAudio.get_default_input_device()
+      outdev = LibPortAudio.get_default_output_device()
+      initialize(indev, input, outdev, output, sample_rate, size)
     end
 
-    # Open default device
-    # def initialize(index, @input, @output, @sample_rate, @size)
+    # Open given device
+    def initialize(indev, @input, outdev, @output, @sample_rate, @size)
+      @ptr = Pointer(LibPortAudio::PaStream).malloc(0)
+      
+      @input_parameter = LibPortAudio::PaStreamParameters.new(
+        device: indev,
+        channel_count: @input,
+        sample_format: format(T),
+        suggested_laency: 0.0,
+        host_api_specific_stream_info: Pointer(Void).null
+      )
+
+      @output_parameter = LibPortAudio::PaStreamParameters.new(
+        device: outdev,
+        channel_count: @output,
+        sample_format: format(T),
+        suggested_laency: 0.0,
+        host_api_specific_stream_info: Pointer(Void).null
+      )
+    end
 
     # Start this stream by using Proc
     def start(callback : (Void*, Void*, UInt64, LibPortAudio::PaStreamCallbackTimeInfo*, LibPortAudio::PaStreamCallbackFlags, Void*) -> Int32, user_data)
       ptrptr = pointerof(@ptr)
       @boxed = Box.box(user_data)
-      except LibPortAudio.open_default_stream(ptrptr, @input, @output, format(T), sample_rate, @size, callback, @boxed)
+      # except LibPortAudio.open_default_stream(ptrptr, @input, @output, format(T), sample_rate, @size, callback, @boxed)
+      except LibPortAudio.open_stream(ptrptr, pointerof(@input_parameter), pointerof(@output_parameter), @sample_rate, @size, LibPortAudio::PaNoFlag, callback, @boxed) 
       except LibPortAudio.start_stream(@ptr)
     end
 
