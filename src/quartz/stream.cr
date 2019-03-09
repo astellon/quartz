@@ -9,15 +9,15 @@ module Quartz
 
     # Open default device
     def initialize(input, output, sample_rate, size)
-      indev  = LibPortAudio.get_default_input_device()
-      outdev = LibPortAudio.get_default_output_device()
+      indev = LibPortAudio.get_default_input_device
+      outdev = LibPortAudio.get_default_output_device
       initialize(indev, input, outdev, output, sample_rate, size)
     end
 
     # Open given device
     def initialize(indev, @input, outdev, @output, @sample_rate, @size)
       @ptr = Pointer(LibPortAudio::PaStream).malloc(0)
-      
+
       @input_parameter = LibPortAudio::PaStreamParameters.new(
         device: indev,
         channel_count: @input,
@@ -40,7 +40,7 @@ module Quartz
       ptrptr = pointerof(@ptr)
       @boxed = Box.box(user_data)
       # except LibPortAudio.open_default_stream(ptrptr, @input, @output, format(T), sample_rate, @size, callback, @boxed)
-      except LibPortAudio.open_stream(ptrptr, pointerof(@input_parameter), pointerof(@output_parameter), @sample_rate, @size, LibPortAudio::PaNoFlag, callback, @boxed) 
+      except LibPortAudio.open_stream(ptrptr, pointerof(@input_parameter), pointerof(@output_parameter), @sample_rate, @size, LibPortAudio::PaNoFlag, callback, @boxed)
       except LibPortAudio.start_stream(@ptr)
     end
 
