@@ -10,6 +10,16 @@ module Quartz
     (0..ndevices - 1).map { |dev| Device.new(dev) }
   end
 
+  # Return default input device.
+  def self.default_input
+    Device.new LibPortAudio.get_default_input_device
+  end
+  
+  # Return default output device.
+  def self.default_output
+    Device.new LibPortAudio.get_default_output_device
+  end
+
   # Store the information of a sound device.
   class Device
     getter index
@@ -18,16 +28,6 @@ module Quartz
     getter input
     getter output
     getter sample_rate
-
-    # Return default input device.
-    def self.default_input
-      Device.new LibPortAudio.get_default_input_device
-    end
-
-    # Return default output device.
-    def self.default_output
-      Device.new LibPortAudio.get_default_output_device
-    end
 
     # Construct from device index.
     def initialize(@index : LibPortAudio::PaDeviceIndex)
