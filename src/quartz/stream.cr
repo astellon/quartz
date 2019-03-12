@@ -63,19 +63,19 @@ module Quartz
     end
 
     def stop
-      except LibPortAudio.StopStream @ptr
+      except LibPortAudio.stop_stream @ptr
     end
 
     def cpu_load
       LibPortAudio.get_stream_cpu_load @ptr
     end
 
-    def is_stopped
+    def is_stopped?
       errno = except LibPortAudio.is_stream_stopped @ptr
       return errno == 1
     end
 
-    def is_active
+    def is_active?
       errno = except LibPortAudio.is_stream_active @ptr
       return errno == 1
     end
