@@ -6,4 +6,7 @@ authors:
 
 crystal: 0.27.2
 
+scripts:
+  postinstall: crystal run src/build.cr
+
 license: MIT
