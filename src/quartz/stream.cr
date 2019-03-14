@@ -54,8 +54,8 @@ module Quartz
     def start(callbacker : U) forall U
       cb = ->(input : Void*, output : Void*, frame_count : UInt64, time_info : LibPortAudio::PaStreamCallbackTimeInfo*, status_flags : LibPortAudio::PaStreamCallbackFlags, user_data : Void*) {
         p = Box(U).unbox(user_data)
-        in_buf = Pointer(T).new(input.address)
-        out_buf = Pointer(T).new(output.address)
+        in_buf = input.as(Pointer(T))
+        out_buf = output.as(Pointer(T))
         p.callback(in_buf, out_buf, frame_count)
         0
       }

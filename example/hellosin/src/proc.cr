@@ -6,8 +6,8 @@ phase = 0.0_f32
 
 cb = ->(input : Void*, output : Void*, frame_count : UInt64, time_info : LibPortAudio::PaStreamCallbackTimeInfo*, status_flags : LibPortAudio::PaStreamCallbackFlags, user_data : Void*) {
   # reinterpret casting
-  p = Pointer(Float32).new(user_data.address)
-  out_buf = Pointer(Float32).new(output.address)
+  p = user_data.as(Pointer(Float32))
+  out_buf = output.as(Pointer(Float32))
   delta_p = 2 * Math::PI * 440 / 44100
   (0..frame_count - 1).each do |i|
     out_buf[2*i] = out_buf[2*i + 1] = Math.sin(p.value)
