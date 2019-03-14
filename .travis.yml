@@ -9,5 +9,6 @@ before_install:
   - tar -xzvf libportaudio.tgz
   - cd portaudio && ./configure && make
   - sudo make install
+  - cd ..
   - rm libportaudio.tgz
   - rm -r portaudio
