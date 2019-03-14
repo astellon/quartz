@@ -1,7 +1,6 @@
 docs/
 lib/
 bin/
-dep/
 .shards/
 *.dwarf
 
