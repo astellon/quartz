@@ -1,5 +1,7 @@
 # Quartz
 
+[![Build Status](https://travis-ci.org/astellon/quartz.svg?branch=master)](https://travis-ci.org/astellon/quartz)
+
 Simple Audio IO Library backended PortAudio.
 
 **Quarts is in Development now. The interfaces is not stable.**
