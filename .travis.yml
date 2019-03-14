@@ -1,1 +1,13 @@
 language: crystal
+
+crystal:
+  - latest
+  - nightly
+
+before_install:
+	- curl -sS  -o libportaudio.tgz http://www.portaudio.com/archives/pa_$(PA_VERSION).tgz
+	- tar -xzvf libportaudio.tgz
+  - cd portaudio && ./configure && make
+  - sudo make install
+	- rm libportaudio.tgz
+	- rm -r portaudio
