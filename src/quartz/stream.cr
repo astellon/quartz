@@ -2,8 +2,8 @@ module Quartz
   # Audio Stream class for sound IO.
   class AudioStream(T)
     getter ptr : Pointer(Void)
-    getter input_device : Int32
-    getter output_device : Int32
+    getter input_device : Device
+    getter output_device : Device
     getter input : Int32
     getter output : Int32
     getter sample_rate : Float64
@@ -11,8 +11,8 @@ module Quartz
 
     # Open default device
     def initialize(input, output, sample_rate, size)
-      indev = LibPortAudio.get_default_input_device
-      outdev = LibPortAudio.get_default_output_device
+      indev = default_input
+      outdev = default_input
       initialize(indev, input, outdev, output, sample_rate, size)
     end
 
@@ -24,7 +24,7 @@ module Quartz
     # Start this stream by using Proc
     def start(callback : (Void*, Void*, UInt64, LibPortAudio::PaStreamCallbackTimeInfo*, LibPortAudio::PaStreamCallbackFlags, Void*) -> Int32, user_data)
       input_parameter = LibPortAudio::PaStreamParameters.new(
-        device: @input_device,
+        device: @input_device.index,
         channel_count: @input,
         sample_format: format(T),
         suggested_laency: 0.0,
@@ -32,13 +32,13 @@ module Quartz
       )
 
       output_parameter = LibPortAudio::PaStreamParameters.new(
-        device: @output_device,
+        device: @output_device.index,
         channel_count: @output,
         sample_format: format(T),
         suggested_laency: 0.0,
         host_api_specific_stream_info: Pointer(Void).null
       )
-      
+
       ptrptr = pointerof(@ptr)
       @boxed = Box.box(user_data)
       except LibPortAudio.open_stream(ptrptr, pointerof(input_parameter), pointerof(output_parameter), @sample_rate, @size, LibPortAudio::PaNoFlag, callback, @boxed)
