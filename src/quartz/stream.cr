@@ -2,6 +2,8 @@ module Quartz
   # Audio Stream class for sound IO.
   class AudioStream(T)
     getter ptr : Pointer(Void)
+    getter input_device : Int32
+    getter output_device : Int32
     getter input : Int32
     getter output : Int32
     getter sample_rate : Float64
@@ -15,32 +17,31 @@ module Quartz
     end
 
     # Open given device
-    def initialize(indev, @input, outdev, @output, @sample_rate, @size)
+    def initialize(@input_device, @input, @output_device, @output, @sample_rate, @size)
       @ptr = Pointer(LibPortAudio::PaStream).malloc(0)
+    end
 
-      @input_parameter = LibPortAudio::PaStreamParameters.new(
-        device: indev,
+    # Start this stream by using Proc
+    def start(callback : (Void*, Void*, UInt64, LibPortAudio::PaStreamCallbackTimeInfo*, LibPortAudio::PaStreamCallbackFlags, Void*) -> Int32, user_data)
+      input_parameter = LibPortAudio::PaStreamParameters.new(
+        device: @input_device,
         channel_count: @input,
         sample_format: format(T),
         suggested_laency: 0.0,
         host_api_specific_stream_info: Pointer(Void).null
       )
 
-      @output_parameter = LibPortAudio::PaStreamParameters.new(
-        device: outdev,
+      output_parameter = LibPortAudio::PaStreamParameters.new(
+        device: @output_device,
         channel_count: @output,
         sample_format: format(T),
         suggested_laency: 0.0,
         host_api_specific_stream_info: Pointer(Void).null
       )
-    end
-
-    # Start this stream by using Proc
-    def start(callback : (Void*, Void*, UInt64, LibPortAudio::PaStreamCallbackTimeInfo*, LibPortAudio::PaStreamCallbackFlags, Void*) -> Int32, user_data)
+      
       ptrptr = pointerof(@ptr)
       @boxed = Box.box(user_data)
-      # except LibPortAudio.open_default_stream(ptrptr, @input, @output, format(T), sample_rate, @size, callback, @boxed)
-      except LibPortAudio.open_stream(ptrptr, pointerof(@input_parameter), pointerof(@output_parameter), @sample_rate, @size, LibPortAudio::PaNoFlag, callback, @boxed)
+      except LibPortAudio.open_stream(ptrptr, pointerof(input_parameter), pointerof(output_parameter), @sample_rate, @size, LibPortAudio::PaNoFlag, callback, @boxed)
       except LibPortAudio.start_stream(@ptr)
     end
 
