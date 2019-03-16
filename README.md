@@ -8,7 +8,9 @@ Simple Audio IO Library backended PortAudio.
 
 ## Installation
 
-1. Add the dependency to your `shard.yml`:
+1. Install PortAudio. [Read this](http://portaudio.com/docs/v19-doxydocs/tutorial_start.html)
+
+2. Add the dependency to your `shard.yml`:
 
    ```yaml
    dependencies:
@@ -16,7 +18,7 @@ Simple Audio IO Library backended PortAudio.
        github: astellon/quartz
    ```
 
-2. Run `shards install`
+3. Run `shards install`
 
 ## Usage
 
