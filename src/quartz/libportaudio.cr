@@ -198,4 +198,12 @@ module PortAudio
   def self.make_version_number(major, minor, subminor)
     (((major) & 0xFF) << 16 | ((minor) & 0xFF) << 8 | ((subminor) & 0xFF))
   end
+
+  # exec PortAudio function and handle PaError.
+  #
+  # Use for functions that return PaError.
+  macro except(code)
+    ( errno = {{code}} ) < 0 ? raise String.new(LibPortAudio.get_error_text(errno)) : errno
+  end
+
 end

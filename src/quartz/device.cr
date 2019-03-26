@@ -7,17 +7,17 @@ module Quartz
   # Return an array of the available sound devices.
   def devices
     devices = Array(LibPortAudio::PaDeviceInfo).new
-    (0..ndevices - 1).map { |dev| Device.new(dev) }
+    (0..ndevices - 1).map { |dev| Quartz::Device.new(dev) }
   end
 
   # Return default input device.
   def default_input
-    Device.new LibPortAudio.get_default_input_device
+    Quartz::Device.new LibPortAudio.get_default_input_device
   end
 
   # Return default output device.
   def default_output
-    Device.new LibPortAudio.get_default_output_device
+    Quartz::Device.new LibPortAudio.get_default_output_device
   end
 
   # Store the information of a sound device.

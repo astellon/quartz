@@ -1,6 +1,5 @@
+# require "../../../src/quartz.cr" # for debug
 require "quartz"
-
-include Quartz
 
 phase = 0.0_f32
 
@@ -16,7 +15,7 @@ cb = ->(input : Void*, output : Void*, frame_count : UInt64, time_info : LibPort
   0
 }
 
-stream = AudioStream(Float32).new(2, 2, 44100.0, 256_u64)
+stream = Quartz::AudioStream(Float32).new(2, 2, 44100.0, 256_u64)
 stream.start(cb, phase)
 
 (0..5).each do |_|

@@ -11,8 +11,8 @@ module Quartz
 
     # Open default device
     def initialize(input, output, sample_rate, size)
-      indev = default_input
-      outdev = default_input
+      indev = Quartz.default_input
+      outdev = Quartz.default_input
       initialize(indev, input, outdev, output, sample_rate, size)
     end
 
@@ -26,7 +26,7 @@ module Quartz
       input_parameter = LibPortAudio::PaStreamParameters.new(
         device: @input_device.index,
         channel_count: @input,
-        sample_format: format(T),
+        sample_format: Quartz.format(T),
         suggested_laency: 0.0,
         host_api_specific_stream_info: Pointer(Void).null
       )
@@ -34,21 +34,21 @@ module Quartz
       output_parameter = LibPortAudio::PaStreamParameters.new(
         device: @output_device.index,
         channel_count: @output,
-        sample_format: format(T),
+        sample_format: Quartz.format(T),
         suggested_laency: 0.0,
         host_api_specific_stream_info: Pointer(Void).null
       )
 
       ptrptr = pointerof(@ptr)
       @boxed = Box.box(user_data)
-      except LibPortAudio.open_stream(ptrptr, pointerof(input_parameter), pointerof(output_parameter), @sample_rate, @size, LibPortAudio::PaNoFlag, callback, @boxed)
-      except LibPortAudio.start_stream(@ptr)
+      PortAudio.except LibPortAudio.open_stream(ptrptr, pointerof(input_parameter), pointerof(output_parameter), @sample_rate, @size, LibPortAudio::PaNoFlag, callback, @boxed)
+      PortAudio.except LibPortAudio.start_stream(@ptr)
     end
 
     # Start this stream by using block
     def start(user_data, &block : (Void*, Void*, UInt64, LibPortAudio::PaStreamCallbackTimeInfo*, LibPortAudio::PaStreamCallbackFlags, Void*) -> Int32)
       callback = block
-      start(callback, user_data)
+      self.start(callback, user_data)
     end
 
     # Start this stream by using class `T` that has `T#callback`
@@ -60,11 +60,11 @@ module Quartz
         p.callback(in_buf, out_buf, frame_count)
         0
       }
-      start(cb, callbacker)
+      self.start(cb, callbacker)
     end
 
     def stop
-      except LibPortAudio.stop_stream @ptr
+      PortAudio.except LibPortAudio.stop_stream @ptr
     end
 
     def cpu_load
@@ -72,17 +72,17 @@ module Quartz
     end
 
     def is_stopped?
-      errno = except LibPortAudio.is_stream_stopped @ptr
+      errno = PortAudio.except LibPortAudio.is_stream_stopped @ptr
       return errno == 1
     end
 
     def is_active?
-      errno = except LibPortAudio.is_stream_active @ptr
+      errno = PortAudio.except LibPortAudio.is_stream_active @ptr
       return errno == 1
     end
 
     def inspect(io : IO)
-      to_s(io)
+      self.to_s(io)
     end
 
     def to_s(io : IO)

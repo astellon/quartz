@@ -1,6 +1,5 @@
+# require "../../../src/quartz.cr" # for debug
 require "quartz"
-
-include Quartz
 
 class CallBacker
   property phase = 0.0_f32
@@ -19,7 +18,7 @@ end
 phase = 0.0_f32
 callbacker = CallBacker.new
 
-stream = AudioStream(Float32).new(2, 2, 44100.0, 256_u64)
+stream = Quartz::AudioStream(Float32).new(2, 2, 44100.0, 256_u64)
 stream.start(callbacker)
 
 (0..5).each do |_|

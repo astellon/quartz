@@ -1,11 +1,9 @@
-# require "quartz"
-require "../../../src/quartz.cr"
-
-include Quartz
+# require "../../../src/quartz.cr" # for debug
+require "quartz"
 
 phase = 0.0_f32
 
-stream = AudioStream(Float32).new(2, 2, 44100.0, 256_u64)
+stream = Quartz::AudioStream(Float32).new(2, 2, 44100.0, 256_u64)
 stream.start(phase) do |input, output, frame_count, time_info, status_flags, user_data|
   # reinterpret casting
   p = user_data.as(Pointer(Float32))
