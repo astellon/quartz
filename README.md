@@ -1,3 +1,5 @@
+<p align="center"><img src="/logo/logotype-horizontal.png"></p>
+
 # Quartz
 
 [![Build Status](https://travis-ci.org/astellon/quartz.svg?branch=master)](https://travis-ci.org/astellon/quartz)
