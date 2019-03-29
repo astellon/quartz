@@ -37,3 +37,4 @@ Hello Sin examples (output sin wave) is in [example/hellosin](https://github.com
 ## Contributors
 
 - [Astellon](https://github.com/astellon) - creator and maintainer
+- [Tobaloidee](https://github.com/Tobaloidee) - logo
