@@ -4,13 +4,13 @@
 
 [![Build Status](https://travis-ci.org/astellon/quartz.svg?branch=master)](https://travis-ci.org/astellon/quartz)
 
-Simple Audio IO Library backended PortAudio.
+**Quarts** is a Simple Audio IO Library backended PortAudio.
 
-**Quarts is in Development now. The interfaces is not stable.**
+**This is in under development now. The API is not stable.**
 
 ## Installation
 
-1. Install PortAudio. [Read this](http://portaudio.com/docs/v19-doxydocs/tutorial_start.html)
+1. Install PortAudio. [Read this](http://portaudio.com/docs/v19-doxydocs/tutorial_start.html) to get more information about installation for PortAudio.
 
 2. Add the dependency to your `shard.yml`:
 
@@ -21,6 +21,8 @@ Simple Audio IO Library backended PortAudio.
    ```
 
 3. Run `shards install`
+
+4. Write your code!
 
 ## Usage
 
