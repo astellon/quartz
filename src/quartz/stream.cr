@@ -52,13 +52,12 @@ module Quartz
     end
 
     # Start this stream by using class `T` that has `T#callback`
-    def start(callbacker : U) forall U
+    def start(callbacker : AbstractAudioApp)
       cb = ->(input : Void*, output : Void*, frame_count : UInt64, time_info : LibPortAudio::PaStreamCallbackTimeInfo*, status_flags : LibPortAudio::PaStreamCallbackFlags, user_data : Void*) {
-        p = Box(U).unbox(user_data)
+        p = Box(AbstractAudioApp).unbox(user_data)
         in_buf = input.as(Pointer(T))
         out_buf = output.as(Pointer(T))
-        p.callback(in_buf, out_buf, frame_count)
-        0
+        p.process(in_buf, out_buf, frame_count)
       }
       self.start(cb, callbacker)
     end
@@ -97,5 +96,9 @@ module Quartz
     def to_unsafe : Pointer(LibPortAudio::PaStream)
       @ptr
     end
+  end
+
+  abstract class AbstractAudioApp
+    abstract def process(input, output, nframe)
   end
 end

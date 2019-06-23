@@ -105,7 +105,7 @@ lib LibPortAudio
   # api enums
   enum PaErrorCode
     PaNoError                               =      0
-    PaNotInitialized                        = -10000
+    PaNotInitialized                        # = -10000
     PaUnanticipatedHostError
     PaInvalidChannelCount
     PaInvalidSampleRate
