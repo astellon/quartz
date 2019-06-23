@@ -1,10 +1,10 @@
-# require "../../../src/quartz.cr" # for debug
-require "quartz"
+require "../../../src/quartz.cr" # for debug
+# require "quartz"
 
-class CallBacker
+class CallBacker < Quartz::AbstractAudioApp
   property phase = 0.0_f32
 
-  def callback(input, output, nframe)
+  def process(input, output, nframe)
     delta_p = 2 * Math::PI * 440 / 44100
     (0..nframe - 1).each do |i|
       output[2*i] = output[2*i + 1] = Math.sin(@phase)
@@ -18,10 +18,10 @@ end
 phase = 0.0_f32
 callbacker = CallBacker.new
 
-stream = Quartz::AudioStream(Float32).new(2, 2, 44100.0, 256_u64)
+stream = Quartz::AudioStream(Float32).new(2, 2, 44100.0, 256_u64, true)
 stream.start(callbacker)
 
 (0..5).each do |_|
-  puts stream
   sleep(1)
+  puts("#{stream.cpu_load*100} %")
 end
