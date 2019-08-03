@@ -104,8 +104,8 @@ lib LibPortAudio
 
   # api enums
   enum PaErrorCode
-    PaNoError                               =      0
-    PaNotInitialized                        # = -10000
+    PaNoError                               = 0
+    PaNotInitialized                        = -10000
     PaUnanticipatedHostError
     PaInvalidChannelCount
     PaInvalidSampleRate
@@ -192,11 +192,55 @@ lib LibPortAudio
   fun sleep = Pa_Sleep(msec : Int64) : Void
 end
 
-# C Macro function
+lib LibC
+  fun dup(oldfd : LibC::Int) : LibC::Int
+end
+
+module Suppressor
+  # Suppress the output from file descriptor
+  #
+  # ```
+  # supress STDOUT, puts "suppressed"
+  # ```
+  macro suppress(io, code)
+    # redirecting
+    closing = {{io}}.close_on_exec?
+    begin
+      o, i = IO.pipe
+      dup = LibC.dup({{io}}.fd)
+      {{io}}.reopen(i)
+      {{code}}
+      LibC.dup2(dup, {{io}}.fd)
+      {{io}}.close_on_exec = closing
+
+    # close
+    ensure
+      o.close if o
+      i.flush if i
+      i.close if i
+    end
+  end
+end
+
 module PortAudio
+  extend self
+
   # Retern the version hash
   def self.make_version_number(major, minor, subminor)
     (((major) & 0xFF) << 16 | ((minor) & 0xFF) << 8 | ((subminor) & 0xFF))
+  end
+
+  # Print out the version of internal PortAudio library.
+  def pa_version(io = STDOUT)
+    io.puts String.new(LibPortAudio.get_version_text)
+  end
+
+  # Initialize Quartz module.
+  #
+  # Quartz is **AUTOMATICALLY** initialized when you include this module, so you don't need to call this.
+  def init
+    Suppressor.suppress Process::ORIGINAL_STDERR, LibPortAudio.init
+    at_exit { LibPortAudio.terminate }
   end
 
   # exec PortAudio function and handle PaError.
@@ -206,4 +250,25 @@ module PortAudio
     ( errno = {{code}} ) < 0 ? raise String.new(LibPortAudio.get_error_text(errno)) : errno
   end
 
+  # type to pa format
+  #
+  # ```
+  # format(Int32) # => 2
+  # ```
+  def format(type : T.class) forall T
+    case type
+    when Float32.class
+      LibPortAudio::PaFloat32
+    when Int32.class
+      LibPortAudio::PaInt32
+    when Int16.class
+      LibPortAudio::PaInt16
+    when Int8.class
+      LibPortAudio::PaInt8
+    when UInt8.class
+      LibPortAudio::PaUInt8
+    else
+      raise "Invalid Type for PaFormat"
+    end
+  end
 end
