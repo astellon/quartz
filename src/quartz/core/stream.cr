@@ -23,7 +23,7 @@ module Quartz
     end
 
     # Start this stream by using Proc
-    def start(callback : (Void*, Void*, UInt64, LibPortAudio::PaStreamCallbackTimeInfo*, LibPortAudio::PaStreamCallbackFlags, Void*) -> Int32, user_data)
+    def start(callback : LibPortAudio::PaStreamCallback, user_data)
       format = @interleave ? PortAudio.format(T) : PortAudio.format(T) | LibPortAudio::PaNonInterleaved
 
       input_parameter = LibPortAudio::PaStreamParameters.new(
@@ -59,7 +59,7 @@ module Quartz
     end
 
     # Start this stream by using block
-    def start(user_data, &block : (Void*, Void*, UInt64, LibPortAudio::PaStreamCallbackTimeInfo*, LibPortAudio::PaStreamCallbackFlags, Void*) -> Int32)
+    def start(user_data, &block : LibPortAudio::PaStreamCallback)
       callback = block
       self.start(callback, user_data)
     end
