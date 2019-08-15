@@ -1,3 +1,2 @@
 module Quartz
-  
-end  # module Quartz
+end # module Quartz

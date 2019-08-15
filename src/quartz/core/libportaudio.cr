@@ -104,7 +104,7 @@ lib LibPortAudio
 
   # api enums
   enum PaErrorCode
-    PaNoError                               = 0
+    PaNoError                               =      0
     PaNotInitialized                        = -10000
     PaUnanticipatedHostError
     PaInvalidChannelCount
@@ -195,7 +195,7 @@ end
 module PortAudio
   extend self
 
-  # Retern the version hash
+  # Make the version hash form numbers
   def self.make_version_number(major, minor, subminor)
     (((major) & 0xFF) << 16 | ((minor) & 0xFF) << 8 | ((subminor) & 0xFF))
   end
@@ -207,7 +207,7 @@ module PortAudio
 
   # Initialize Quartz module.
   #
-  # Quartz is **AUTOMATICALLY** initialized when you include this module, so you don't need to call this.
+  # PortAudio context is **AUTOMATICALLY** initialized when you include this module, so you don't need to call this.
   def init
     Quartz::Suppressor.suppress Process::ORIGINAL_STDERR, LibPortAudio.init
     at_exit { LibPortAudio.terminate }

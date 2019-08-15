@@ -20,7 +20,7 @@ describe Quartz do
       mem.to_s.should contain "PortAudio"
       mem.to_s.should contain "V19."
     end
-  
+
     it "format" do
       {% for type in {Float32, Int32, Int16, Int8, UInt8} %}
         PortAudio.format({{type}}).should eq LibPortAudio::Pa{{type}}
