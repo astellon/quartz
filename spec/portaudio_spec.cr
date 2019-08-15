@@ -13,5 +13,18 @@ describe Quartz do
         PortAudio.except(-1000)
       end
     end
+
+    it "pa_version" do
+      mem = IO::Memory.new
+      PortAudio.pa_version(mem)
+      mem.to_s.should contain "PortAudio"
+      mem.to_s.should contain "V19."
+    end
+  
+    it "format" do
+      {% for type in {Float32, Int32, Int16, Int8, UInt8} %}
+        PortAudio.format({{type}}).should eq LibPortAudio::Pa{{type}}
+      {% end %}
+    end
   end
 end
