@@ -255,20 +255,13 @@ module PortAudio
   # ```
   # format(Int32) # => 2
   # ```
-  def format(type : T.class) forall T
-    case type
-    when Float32.class
-      LibPortAudio::PaFloat32
-    when Int32.class
-      LibPortAudio::PaInt32
-    when Int16.class
-      LibPortAudio::PaInt16
-    when Int8.class
-      LibPortAudio::PaInt8
-    when UInt8.class
-      LibPortAudio::PaUInt8
-    else
-      raise "Invalid Type for PaFormat"
-    end
+  {% for type in {UInt8, Int8, Int16, Int32, Float32} %}
+  def format(t : {{type}}.class)
+    LibPortAudio::Pa{{type}}
+  end
+  {% end %}
+
+  def format(type)
+    raise "Invalid Type for PaFormat"
   end
 end
