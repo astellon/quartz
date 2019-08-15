@@ -110,8 +110,4 @@ module Quartz
       @ptr
     end
   end
-
-  abstract class AbstractAudioApp
-    abstract def process(input, output, nframe)
-  end
 end
