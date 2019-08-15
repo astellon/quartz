@@ -192,36 +192,6 @@ lib LibPortAudio
   fun sleep = Pa_Sleep(msec : Int64) : Void
 end
 
-lib LibC
-  fun dup(oldfd : LibC::Int) : LibC::Int
-end
-
-module Suppressor
-  # Suppress the output from file descriptor
-  #
-  # ```
-  # supress STDOUT, puts "suppressed"
-  # ```
-  macro suppress(io, code)
-    # redirecting
-    closing = {{io}}.close_on_exec?
-    begin
-      o, i = IO.pipe
-      dup = LibC.dup({{io}}.fd)
-      {{io}}.reopen(i)
-      {{code}}
-      LibC.dup2(dup, {{io}}.fd)
-      {{io}}.close_on_exec = closing
-
-    # close
-    ensure
-      o.close if o
-      i.flush if i
-      i.close if i
-    end
-  end
-end
-
 module PortAudio
   extend self
 
@@ -239,7 +209,7 @@ module PortAudio
   #
   # Quartz is **AUTOMATICALLY** initialized when you include this module, so you don't need to call this.
   def init
-    Suppressor.suppress Process::ORIGINAL_STDERR, LibPortAudio.init
+    Quartz::Suppressor.suppress Process::ORIGINAL_STDERR, LibPortAudio.init
     at_exit { LibPortAudio.terminate }
   end
 
