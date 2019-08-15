@@ -1,8 +1,6 @@
 require "../../../src/quartz.cr" # for debug
 # require "quartz"
 
-p LibPortAudio::PaErrorCode::PaInvalidDevice.to_i
-
 phase = 0.0_f32
 
 stream = Quartz::AudioStream(Float32).new(2, 2, 44100.0, 256_u64, true)
