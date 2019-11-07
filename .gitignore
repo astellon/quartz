@@ -3,6 +3,7 @@ lib/
 bin/
 .shards/
 *.dwarf
+*a
 
 # Libraries don't need dependency lock
 # Dependencies will be locked in applications that use them

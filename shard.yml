@@ -9,4 +9,7 @@ crystal: 0.27.2
 libraries:
   libportaudio: "*"
 
+scripts:
+  postinstall: cd dep && crystal run build.cr
+
 license: MIT

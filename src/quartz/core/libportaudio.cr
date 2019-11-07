@@ -1,4 +1,4 @@
-@[Link("portaudio")]
+@[Link(ldflags: "#{__DIR__}/../../../dep/libportaudio.a -lrt -lm -lasound -ljack -pthread")]
 lib LibPortAudio
   # api data structures
   struct PaVersionInfo
@@ -58,6 +58,16 @@ lib LibPortAudio
     sample_rate : Float64
   end
 
+  struct PaUtilRingBuffer
+    buffer_size : RingBufferSizeT
+    write_index : RingBufferSizeT
+    read_index : RingBufferSizeT
+    big_mask : RingBufferSizeT
+    small_mask : RingBufferSizeT
+    element_size_byte : RingBufferSizeT
+    buffer : Void*
+  end
+
   # api constant values (Macros in C)
   PaNoDevice                              = PaDeviceIndex.new(-1)
   PaUseHostApiSpecificDeviceSpecification = PaDeviceIndex.new(-2)
@@ -96,6 +106,7 @@ lib LibPortAudio
   alias PaStream = Void
   alias PaStreamFlags = UInt64
   alias PaStreamCallbackFlags = UInt64
+  alias RingBufferSizeT = Int64
 
   # C Function pointer is `Proc` in Crystal
   # DO NOT USE `PaStreamCallback*`, USE `PaStreamCallback`
@@ -190,6 +201,9 @@ lib LibPortAudio
   fun get_stream_write_available = Pa_GetStreamWriteAvailable(stream : PaStream*) : Int64
   fun get_sample_size = Pa_GetSampleSize(format : PaSampleFormat) : PaError
   fun sleep = Pa_Sleep(msec : Int64) : Void
+
+  #pa_ringbuffer.h
+  fun initialize_ring_buffer = PaUtil_InitializeRingBuffer(rbuf : PaUtilRingBuffer*, element_size_bytes : RingBufferSizeT, element_count : RingBufferSizeT, data_ptr : Void*)
 end
 
 module PortAudio
