@@ -44,9 +44,3 @@ module Quartz
     end
   end
 end
-
-rbuf = Quartz::RingBuffer(Float32).new(256)
-
-p rbuf.write([1.0_f32, 2.0_f32])
-p rbuf.read
-p rbuf.size
