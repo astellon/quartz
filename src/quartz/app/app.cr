@@ -1,3 +1,5 @@
+require "./ringbuffer.cr"
+
 module Quartz
   abstract class AbstractAudioApp
     abstract def process(input, output, nframe)

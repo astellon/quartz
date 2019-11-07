@@ -202,8 +202,13 @@ lib LibPortAudio
   fun get_sample_size = Pa_GetSampleSize(format : PaSampleFormat) : PaError
   fun sleep = Pa_Sleep(msec : Int64) : Void
 
-  #pa_ringbuffer.h
+  # pa_ringbuffer.h
   fun initialize_ring_buffer = PaUtil_InitializeRingBuffer(rbuf : PaUtilRingBuffer*, element_size_bytes : RingBufferSizeT, element_count : RingBufferSizeT, data_ptr : Void*)
+  fun flush_ring_buffer = PaUtil_FlushRingBuffer(rbuf : PaUtilRingBuffer*) : Void
+  fun get_ring_buffer_write_available = PaUtil_GetRingBufferWriteAvailable(rbuf : PaUtilRingBuffer*) : RingBufferSizeT
+  fun get_ring_buffer_read_available = PaUtil_GetRingBufferReadAvailable(rbuf : PaUtilRingBuffer*) : RingBufferSizeT
+  fun write_ring_buffer = PaUtil_WriteRingBuffer(rbuf : PaUtilRingBuffer*, data : Void*, element_count : RingBufferSizeT) : RingBufferSizeT
+  fun read_ring_buffer = PaUtil_ReadRingBuffer(rbuf : PaUtilRingBuffer*, data : Void*, element_count : RingBufferSizeT) : RingBufferSizeT
 end
 
 module PortAudio
