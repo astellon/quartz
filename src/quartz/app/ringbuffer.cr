@@ -12,6 +12,14 @@ module Quartz
       initialize(@buf, size, @data_ptr)
     end
 
+    def write_available
+      LibPortAudio.get_ring_buffer_write_available(@buf)
+    end
+
+    def read_available
+      LibPortAudio.get_ring_buffer_read_available(@buf)
+    end
+
     def write(value : T)
       LibPortAudio.write_ring_buffer(@buf, pointerof(value), 1)
     end
