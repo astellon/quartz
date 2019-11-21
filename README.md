@@ -4,9 +4,7 @@
 
 [![Build Status](https://travis-ci.org/astellon/quartz.svg?branch=master)](https://travis-ci.org/astellon/quartz)
 
-**Quarts** is a Simple Audio IO Library backended PortAudio.
-
-**This is in under development now. The API is not stable.**
+**Quarts** is a Audio IO Library.
 
 ## Installation
 
