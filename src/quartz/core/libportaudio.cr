@@ -12,7 +12,7 @@ lib LibPortAudio
   struct PaHostApiInfo
     struct_version : Int32
     type : PaHostApiTypeId
-    name : UInt8
+    name : UInt8*
     device_count : Int32
     default_input_device : PaDeviceIndex
     default_output_device : PaDeviceIndex
@@ -21,7 +21,7 @@ lib LibPortAudio
   struct PaHostErrorInfo
     host_api_type : PaHostApiTypeId
     error_code : Int64
-    error_text : UInt8
+    error_text : UInt8*
   end
 
   struct PaDeviceInfo
