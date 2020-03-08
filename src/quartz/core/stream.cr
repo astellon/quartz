@@ -13,7 +13,7 @@ module Quartz
     def initialize(input, output, sample_rate, size, interleave = false)
       @interleave = interleave
       indev = Quartz.default_input
-      outdev = Quartz.default_input
+      outdev = Quartz.default_output
       initialize(indev, input, outdev, output, sample_rate, size, interleave)
     end
 
