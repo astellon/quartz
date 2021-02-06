@@ -228,7 +228,7 @@ module PortAudio
   #
   # PortAudio context is **AUTOMATICALLY** initialized when you include this module, so you don't need to call this.
   def init
-    Quartz::Suppressor.suppress Process::ORIGINAL_STDERR, LibPortAudio.init
+    Quartz::Suppressor.suppress IO::FileDescriptor.new(2, blocking: true), LibPortAudio.init
     at_exit { LibPortAudio.terminate }
   end
 
