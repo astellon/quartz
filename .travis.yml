@@ -7,6 +7,5 @@ crystal:
 before_install:
   - sudo apt-get update
   - sudo apt-get install -y libasound-dev
-  - curl -sS  -o libportaudio.tgz http://www.portaudio.com/archives/pa_stable_v190600_20161030.tgz
-  - tar -xzvf libportaudio.tgz
-  - cd portaudio && ./configure && make && sudo make install
+  - sudo apt-get install -y libjack-dev
+  - (cd dep && crystal run build.cr)
