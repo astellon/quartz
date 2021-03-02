@@ -4,7 +4,7 @@ version: 0.1.2
 authors:
   - astellon <22632787+astellon@users.noreply.github.com>
 
-crystal: 0.27.2
+crystal: ">= 0.30.0"
 
 libraries:
   libportaudio: "*"
