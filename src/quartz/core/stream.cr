@@ -45,17 +45,19 @@ module Quartz
       ptrptr = pointerof(@ptr)
       @boxed = Box.box(user_data)
 
-      PortAudio.except LibPortAudio.open_stream(
-        ptrptr,
-        pointerof(input_parameter),
-        pointerof(output_parameter),
-        @sample_rate,
-        @size,
-        LibPortAudio::PaNoFlag,
-        callback,
-        @boxed
-      )
-      PortAudio.except LibPortAudio.start_stream(@ptr)
+      @boxed.try do |boxed|
+        PortAudio.except LibPortAudio.open_stream(
+          ptrptr,
+          pointerof(input_parameter),
+          pointerof(output_parameter),
+          @sample_rate,
+          @size,
+          LibPortAudio::PaNoFlag,
+          callback,
+          boxed
+        )
+        PortAudio.except LibPortAudio.start_stream(@ptr)
+      end
     end
 
     # Start this stream by using block
