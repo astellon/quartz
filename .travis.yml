@@ -3,3 +3,6 @@ language: crystal
 crystal:
   - latest
   - nightly
+
+before_install:
+  - (cd dep && crystal run build.cr)
