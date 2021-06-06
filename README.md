@@ -2,8 +2,6 @@
 
 # Quartz
 
-[![Build Status](https://travis-ci.org/astellon/quartz.svg?branch=master)](https://travis-ci.org/astellon/quartz)
-
 **Quarts** is an Audio IO Library.
 
 ## Installation
